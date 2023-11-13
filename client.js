@@ -4,13 +4,7 @@ const success = () =>{
   console.log("Connection Successful")
 }
 
-const handleUserInput = function(key) {
-  console.log("Key pressed:", key); // Add this line to check the received key
 
-  if(key === "\u0003"){
-    process.exit();
-  }
-};
 
 const connect = function () {
   const conn = net.createConnection({
@@ -36,16 +30,7 @@ const connect = function () {
   return conn;
 };
 
-const setupInput = function () {
-  const stdin = process.stdin;
-  stdin.setRawMode(true);
-  stdin.setEncoding("utf8");
-  stdin.resume();
-  stdin.on("data",(key)=>{handleUserInput(key)});
-  return stdin;
-};
 
-module.exports = {
-  connect,
-  setupInput,
-};
+
+module.exports = connect
+  
