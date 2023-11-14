@@ -2,40 +2,57 @@
 let connection;
 
 const handleUserInput = function(key) {
-  
-
-  if(key === "\u0003"){
+  if (key === "\u0003") {
     process.exit();
   }
 };
 
-const setupInput = function (conn) {
+
+
+
+const setupInput = function(conn) {
+  let intervalID;
   connection = conn;
   const stdin = process.stdin;
   stdin.setRawMode(true);
   stdin.setEncoding("utf8");
   stdin.resume();
-  stdin.on("data",(key)=>{handleUserInput(key)});
+  stdin.on("data",(key)=>{
+    handleUserInput(key);
+  });
   stdin.on("data", (key)=>{
-    if(key === "w"){
-      connection.write("Move: up");
+    if (key === "w") {
+      clearInterval(intervalID);
+      intervalID = setInterval(() => {
+        connection.write("Move: up");
+      }, 100);
+      
     }
-    if(key === "a"){
-      connection.write("Move: left");
+    if (key === "a") {
+      clearInterval(intervalID);
+      intervalID = setInterval(() => {
+        connection.write("Move: left");
+      }, 100);
     }
-    if(key === "s"){
-      connection.write("Move: down");
+    if (key === "s") {
+      clearInterval(intervalID);
+      intervalID = setInterval(() => {
+        connection.write("Move: down");
+      }, 100);
     }
-    if(key === "d"){
-      connection.write("Move: right");
+    if (key === "d") {
+      clearInterval(intervalID);
+      intervalID = setInterval(() => {
+        connection.write("Move: right");
+      }, 100);
     }
-    if(key === "o"){
+    if (key === "o") {
       connection.write("Say: OMG!");
     }
-    if(key === "q"){
+    if (key === "q") {
       connection.write("Say: I love coding");
     }
-  })
+  });
   return stdin;
 };
 
