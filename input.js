@@ -1,6 +1,7 @@
 
 let connection;
 
+//if the user enters control C it will terminate the program
 const handleUserInput = function(key) {
   if (key === "\u0003") {
     process.exit();
@@ -9,20 +10,31 @@ const handleUserInput = function(key) {
 
 
 
-
+//takes in connection object to write to server and this creates input for user to move snek
 const setupInput = function(conn) {
+  
   let intervalID;
+
   connection = conn;
+
   const stdin = process.stdin;
   stdin.setRawMode(true);
   stdin.setEncoding("utf8");
   stdin.resume();
+
+  //uses callback function to kill connection
   stdin.on("data",(key)=>{
     handleUserInput(key);
   });
+
+  //listens for data from terminal line and will send that info to server
   stdin.on("data", (key)=>{
     if (key === "w") {
+
+      //clears the interval that was set previously
       clearInterval(intervalID);
+
+      //sets an interval to keep snek moving and also sets intervalID so that we can clear the interval later
       intervalID = setInterval(() => {
         connection.write("Move: up");
       }, 100);
